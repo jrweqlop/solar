@@ -1,22 +1,26 @@
+# เลือก base image ที่ใช้ Node.js
 FROM node:23-alpine
 
-# Set the working directory inside the container
-WORKDIR /usr/src/app
+# กำหนด working directory
+WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
+# คัดลอกไฟล์ package.json และ package-lock.json มาที่ working directory
 COPY package*.json ./
 
-# Install the application dependencies
+# ติดตั้ง dependencies
 RUN npm install
 
-# Copy the rest of the application files
+# คัดลอก source code ทั้งหมด
 COPY . .
 
-# Build the NestJS application
+RUN npm run generate
+
+# สร้างโปรเจกต์
 RUN npm run build
 
-# Expose the application port
-EXPOSE 3000
+# เปิดพอร์ตที่แอปจะใช้งาน
+EXPOSE 4500
 
-# Command to run the application
-CMD ["node", "dist/main"]
+# คำสั่งในการรันแอป
+CMD ["npm", "run", "start:prod"]
+

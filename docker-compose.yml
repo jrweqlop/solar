@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 services:
   db:
     image: postgres
@@ -11,6 +11,20 @@ services:
       - "7500:5432"
     volumes:
       - ./db-data:/var/lib/postgresql/data
+    networks:
+      - postgres
+
+  solarbackend:
+    build: ./solarbackend
+    container_name: solar-backend
+    platform: linux/amd64
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:1234567890@db:5432/solar-ev-charger?schema=public
+    ports:
+      - "7550:4500"
     networks:
       - postgres
 
