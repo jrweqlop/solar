@@ -20,3 +20,34 @@ model BasicData {
   Power   String?
   created DateTime @default(now())
 }
+
+model DataAllHvInverter {
+  id               Int      @id @default(autoincrement())
+  statusInverterOn Boolean
+  volt_in          Float
+  current_in       Float
+  power_in         Float
+  Energy_in        Float
+  volt_out         Float
+  current_out      Float
+  power_out        Float
+  Energy_out       Float
+  efficiency       Float
+  createAted       DateTime @default(now())
+}
+
+model DataAllMpptSolarCharger {
+  id                  Int      @id @default(autoincrement())
+  modeWorkingEnabled  Boolean
+  statusCharge        Boolean
+  volt_in_solar       Float
+  current_in_solar    Float
+  power_in_solar      Float
+  Energy_in_solar     Float
+  volt_out_battery    Float
+  current_out_battery Float
+  power_out_battery   Float
+  Energy_out_battery  Float
+  efficiency          Float
+  createAted          DateTime @default(now())
+}
