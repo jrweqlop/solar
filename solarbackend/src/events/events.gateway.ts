@@ -1,4 +1,4 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, WsResponse } from '@nestjs/websockets';
+import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, WsResponse, WsException } from '@nestjs/websockets';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
@@ -7,7 +7,7 @@ import { from, map, Observable } from 'rxjs';
 import { Prisma } from '@prisma/client';
 
 // @WebSocketGateway()
-@WebSocketGateway(8080, { transports: ['websocket'] })
+@WebSocketGateway(81, { transports: ['websocket'] })
 export class EventsGateway {
   constructor(private readonly eventsService: EventsService) { }
 
@@ -24,24 +24,19 @@ export class EventsGateway {
     console.log('Client disconnected: ');
   }
 
-  // @SubscribeMessage('events')
-  // handleEvent(@MessageBody() data: string): string {
-  //   console.log(data)
-  //   return data;
-  // }
+  @SubscribeMessage('events')
+  handleEvent(@MessageBody() data: string): string {
+    console.log('Received message:', data);
+    return data;
+  }
 
-  // @SubscribeMessage('events')
-  // onEvent(client: WebSocket, data: any): Observable<WsResponse<number>> {
-  //   console.log(data)
-  //   return from([1, 2, 3]).pipe(map(item => ({ event: 'events', data: item })));
-  // }
 
   @SubscribeMessage('message')
   async onMessage(client: WebSocket, data: Buffer) {
     // console.log(client.id)
     console.log(data.toString())
     const value = JSON.parse(data.toString())
-    if (typeof value !== 'object') throw new Error()
+    if (typeof value !== 'object') throw new WsException('Invalid credentials.');
     const { Volt, Current, Power } = value as {
       Volt: string,
       Current: string,
@@ -53,7 +48,8 @@ export class EventsGateway {
       Power
     }
     const result = await this.eventsService.create(item)
-    if (!result) return { event: 'message', data: 'cannot create data' }
+    if (!result) throw new WsException('Invalid credentials.');
+    // if (!result) return { event: 'message', data: 'cannot create data' }
     return { event: 'message', data: 'success create data' }
   }
 }
