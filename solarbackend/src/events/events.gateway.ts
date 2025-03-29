@@ -25,9 +25,10 @@ export class EventsGateway {
   }
 
   @SubscribeMessage('events')
-  handleEvent(@MessageBody() data: string): string {
-    console.log('Received message:', data);
-    return data;
+  handleEvent(@MessageBody() data: unknown): string {
+    
+    console.log(data)
+    return 'hello world'
   }
 
 
