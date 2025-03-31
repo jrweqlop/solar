@@ -1,56 +1,85 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, WsResponse, WsException } from '@nestjs/websockets';
+import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, WsException, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, WsResponse, ConnectedSocket } from '@nestjs/websockets';
 import { EventsService } from './events.service';
-import { CreateEventDto } from './dto/create-event.dto';
-import { UpdateEventDto } from './dto/update-event.dto';
 import { Server, WebSocket } from 'ws';
-import { from, map, Observable } from 'rxjs';
 import { Prisma } from '@prisma/client';
 
 // @WebSocketGateway()
-@WebSocketGateway(81, { transports: ['websocket'] })
-export class EventsGateway {
+@WebSocketGateway(81, {
+  // transports: ['websocket'],
+  path: 'device'
+})
+export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private readonly eventsService: EventsService) { }
 
   @WebSocketServer()
-  server: Server;
+  server: Server
+
+  private clients: Map<WebSocket, NodeJS.Timeout> = new Map();
 
   // เมื่อ client เชื่อมต่อ
   handleConnection(client: WebSocket) {
     console.log('Client connected: ');
+
+    const interval = setInterval(() => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.ping()
+      }
+    }, 5000)
+    this.clients.set(client, interval);
+    // ถ้า client ตอบ pong กลับมา แสดงว่ายังออนไลน์อยู่
+    client.on('pong', () => {
+      console.log('Received pong from client');
+    });
   }
 
   // เมื่อ client หยุดเชื่อมต่อ
   handleDisconnect(client: WebSocket) {
     console.log('Client disconnected: ');
+    const interval = this.clients.get(client);
+    if (interval) {
+      clearInterval(interval);
+    }
+    this.clients.delete(client);
+  }
+
+  sendToClients(message: string, sender: WebSocket) {
+    this.server.clients.forEach((client: WebSocket) => {
+      if (client !== sender && client.readyState === client.OPEN) {
+        client.send(message); // ส่งข้อความไปยัง client
+      }
+    });
   }
 
   @SubscribeMessage('events')
-  handleEvent(@MessageBody() data: unknown): string {
-    
-    console.log(data)
-    return 'hello world'
+  handleEvent(@MessageBody() data: unknown, @ConnectedSocket() client: WebSocket): WsResponse<any> {
+    if (typeof data !== 'object') throw new WsException('Invalid credentials.');
+    const thisData = data as InternetData
+    const result = { event: 'events', data: 'success send data' }
+    this.sendToClients(JSON.stringify(thisData), client)
+    return result
   }
 
-
-  @SubscribeMessage('message')
-  async onMessage(client: WebSocket, data: Buffer) {
-    // console.log(client.id)
-    console.log(data.toString())
-    const value = JSON.parse(data.toString())
-    if (typeof value !== 'object') throw new WsException('Invalid credentials.');
-    const { Volt, Current, Power } = value as {
-      Volt: string,
-      Current: string,
-      Power: string
+  @SubscribeMessage('keepdata')
+  async handleEventUdate(@MessageBody() data: object): Promise<object> {
+    if (typeof data !== 'object') throw new WsException('error data not match')
+    const value = data as InternetData
+    const data1 = value['DATA_ALL_HV_Inverter']
+    const data2 = value['DATA_ALL_MPPT_SOLAR_CHARGER']
+    if (!data1 || !data2) {
+      throw new WsException('Invalid credentials.');
     }
-    const item: Prisma.BasicDataCreateInput = {
-      Volt,
-      Current,
-      Power
-    }
-    const result = await this.eventsService.create(item)
+    const result = await this.eventsService.createData(data1, data2)
     if (!result) throw new WsException('Invalid credentials.');
-    // if (!result) return { event: 'message', data: 'cannot create data' }
-    return { event: 'message', data: 'success create data' }
+    return { status: 200, message: 'success' }
   }
+
+  @SubscribeMessage('getData')
+  async handleGetData(@MessageBody() data: unknown): Promise<object> {
+    if (typeof data === 'object') {
+      const result = await this.eventsService.getData()
+      return { event: 'getData', data: result }
+    }
+    else return { status: 400, message: 'Bad Request Get Data' }
+  }
+
 }

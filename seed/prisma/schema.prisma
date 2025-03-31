@@ -19,9 +19,9 @@ model BasicData {
   Current String?
   Power   String?
   created DateTime @default(now())
-}
+} 
 
-model DataAllHvInverter {
+model DATA_ALL_HV_Inverter {
   id               Int      @id @default(autoincrement())
   statusInverterOn Boolean
   volt_in          Float
@@ -36,7 +36,7 @@ model DataAllHvInverter {
   createAted       DateTime @default(now())
 }
 
-model DataAllMpptSolarCharger {
+model DATA_ALL_MPPT_SOLAR_CHARGER {
   id                  Int      @id @default(autoincrement())
   modeWorkingEnabled  Boolean
   statusCharge        Boolean

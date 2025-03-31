@@ -19,7 +19,7 @@ model BasicData {
   Current String?
   Power   String?
   created DateTime @default(now())
-}
+} 
 
 model DATA_ALL_HV_Inverter {
   id               Int      @id @default(autoincrement())

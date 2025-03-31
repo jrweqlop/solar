@@ -10,7 +10,7 @@ CREATE TABLE "BasicData" (
 );
 
 -- CreateTable
-CREATE TABLE "DataAllHvInverter" (
+CREATE TABLE "DATA_ALL_HV_Inverter" (
     "id" SERIAL NOT NULL,
     "statusInverterOn" BOOLEAN NOT NULL,
     "volt_in" DOUBLE PRECISION NOT NULL,
@@ -24,11 +24,11 @@ CREATE TABLE "DataAllHvInverter" (
     "efficiency" DOUBLE PRECISION NOT NULL,
     "createAted" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "DataAllHvInverter_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "DATA_ALL_HV_Inverter_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "DataAllMpptSolarCharger" (
+CREATE TABLE "DATA_ALL_MPPT_SOLAR_CHARGER" (
     "id" SERIAL NOT NULL,
     "modeWorkingEnabled" BOOLEAN NOT NULL,
     "statusCharge" BOOLEAN NOT NULL,
@@ -43,5 +43,5 @@ CREATE TABLE "DataAllMpptSolarCharger" (
     "efficiency" DOUBLE PRECISION NOT NULL,
     "createAted" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "DataAllMpptSolarCharger_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "DATA_ALL_MPPT_SOLAR_CHARGER_pkey" PRIMARY KEY ("id")
 );
