@@ -11,13 +11,15 @@
   },
   "dependencies": {
     "@emotion/cache": "latest",
-    "@emotion/react": "latest",
+    "@emotion/react": "^11.14.0",
     "@emotion/server": "latest",
-    "@emotion/styled": "latest",
+    "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "latest",
-    "@mui/material": "latest",
+    "@mui/material": "^7.0.1",
     "@mui/material-nextjs": "latest",
+    "@mui/styled-engine-sc": "^7.0.1",
     "@mui/styles": "latest",
+    "@mui/x-charts": "^7.28.0",
     "autoprefixer": "latest",
     "clean-css": "latest",
     "clsx": "latest",
@@ -26,7 +28,8 @@
     "postcss": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-use-websocket": "^4.13.0"
+    "react-use-websocket": "^4.13.0",
+    "styled-components": "^6.1.16"
   },
   "devDependencies": {
     "@types/node": "latest",

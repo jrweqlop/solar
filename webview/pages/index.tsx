@@ -1,20 +1,19 @@
-import Button from '@mui/material/Button'
-import { useAtom } from 'jotai'
+'use client'
 import React from 'react'
-import { DataWsJson } from '../src/server/ProviderWebsocket'
+import PageIndex from '../src/components/PageIndex'
+import { useRouter } from 'next/navigation'
 
 const Index = () => {
 
-  const [message] = useAtom(DataWsJson)
+  const router = useRouter()
 
-  const testOnClick = () => {
-    console.log('test')
+  const changePage = () => {
+    router.push('/home')
   }
 
   return (
     <>
-      <Button onClick={testOnClick}>ทดสอบ</Button>
-      {JSON.stringify(message)}
+      <PageIndex nextPage={changePage} />
     </>
   )
 }

@@ -2,17 +2,22 @@ import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, WsExc
 import { EventsService } from './events.service';
 import { Server, WebSocket } from 'ws';
 import { Prisma } from '@prisma/client';
+import { BadGatewayException, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 
 // @WebSocketGateway()
 @WebSocketGateway(81, {
   // transports: ['websocket'],
   path: 'device'
 })
-export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class EventsGateway implements OnModuleInit, OnGatewayConnection, OnGatewayDisconnect {
   constructor(private readonly eventsService: EventsService) { }
 
   @WebSocketServer()
   server: Server
+
+  onModuleInit() {
+    console.log(`The module has been initialized.`);
+  }
 
   private clients: Map<WebSocket, NodeJS.Timeout> = new Map();
 
@@ -24,7 +29,7 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
       if (client.readyState === WebSocket.OPEN) {
         client.ping()
       }
-    }, 5000)
+    }, 60000)
     this.clients.set(client, interval);
     // ถ้า client ตอบ pong กลับมา แสดงว่ายังออนไลน์อยู่
     client.on('pong', () => {
@@ -48,6 +53,11 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
         client.send(message); // ส่งข้อความไปยัง client
       }
     });
+  }
+
+  @SubscribeMessage('ping')
+  handlePig(@ConnectedSocket() client: WebSocket) {
+    client.send('pong')
   }
 
   @SubscribeMessage('events')

@@ -3,7 +3,7 @@ import { clearInterval } from "timers";
 import { WebSocket } from "ws";
 
 // const WebSocket = require('ws')
-const ws = new WebSocket('ws://localhost:8080')
+const ws = new WebSocket('ws://192.168.1.118:81')
 let count = 0
 let connect = false
 
@@ -57,6 +57,3 @@ ws.on('close', () => {
 });
 
 autoConnect()
-
-
-// console.log(join(process.cwd()))
