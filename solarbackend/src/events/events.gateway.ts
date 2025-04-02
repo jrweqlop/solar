@@ -62,6 +62,10 @@ export class EventsGateway implements OnModuleInit, OnGatewayConnection, OnGatew
 
   @SubscribeMessage('events')
   handleEvent(@MessageBody() data: unknown, @ConnectedSocket() client: WebSocket): WsResponse<any> {
+    if (typeof data === 'string') {
+      const value = JSON.parse(data)
+      if (typeof value !== 'object') throw new WsException('Invalid credentials.');
+    }
     if (typeof data !== 'object') throw new WsException('Invalid credentials.');
     const thisData = data as InternetData
     const result = { event: 'events', data: 'success send data' }

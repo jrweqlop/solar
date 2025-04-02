@@ -1,5 +1,5 @@
 import { useAtom } from "jotai"
-import { useEffect, useState } from "react"
+import { RefCallback, useEffect, useState } from "react"
 import useWebSocket, { ReadyState } from "react-use-websocket"
 import { DataWsJson } from "./ProviderWebsocket"
 
@@ -18,16 +18,32 @@ const HookWebsocket = (url: string) => {
         }
     }, [message])
 
-    useEffect(() => {
-        if (readyState === ReadyState.OPEN) {
-            if (lastJsonMessage !== null) {
-                const value = lastJsonMessage as InternetData
-                // setMessage((prev) => [...prev, value])
-                setMessage([...message, value])
-                setNowData(value)
+    const customHookWebsocket = (callback: (item: InternetData) => void) => {
+        useEffect(() => {
+            if (readyState === ReadyState.OPEN) {
+                if (lastJsonMessage !== null) {
+                    const value = lastJsonMessage as InternetData
+                    callback(value)
+                }
             }
-        }
-    }, [lastJsonMessage, readyState])
+        }, [readyState, lastJsonMessage])
+    }
+
+    customHookWebsocket((data) => {
+        setNowData(data)
+        setMessage((e) => [...e, data])
+    })
+
+    // useEffect(() => {
+    //     if (readyState === ReadyState.OPEN) {
+    //         if (lastJsonMessage !== null) {
+    //             const value = lastJsonMessage as InternetData
+    //             // setMessage((prev) => [...prev, value])
+    //             setMessage([...message, value])
+    //             setNowData(value)
+    //         }
+    //     }
+    // }, [lastJsonMessage, readyState])
 
     return { message, readyState, nowData }
 }

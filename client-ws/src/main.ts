@@ -1,9 +1,10 @@
 import { join } from "path";
 import { clearInterval } from "timers";
 import { WebSocket } from "ws";
+import { thisData } from "./dummy/file";
 
 // const WebSocket = require('ws')
-const ws = new WebSocket('ws://192.168.1.118:81')
+const ws = new WebSocket('ws://192.168.1.118:81/device')
 let count = 0
 let connect = false
 
@@ -17,9 +18,9 @@ ws.on('open', () => {
     //     event: 'message',
     //     data: `{"Volt": "220.2", "Current": "15.8", "Power": "2.2"}`
     // })
-    const data = `{Volt: "220.2", Current: "15.8", Power: "2.2" }`
-    console.log(data)
-    ws.send(data)
+    // const data = `{Volt: "220.2", Current: "15.8", Power: "2.2" }`
+    // console.log(data)
+    // ws.send(data)
     autoRun()
 })
 const autoConnect = () => {
@@ -30,16 +31,16 @@ const autoConnect = () => {
 
 const autoRun = () => {
     const autoSend = setInterval(() => {
+        if (count === thisData.length - 1) count = 0
         count += 1
         console.log('sending :', count)
         const data = JSON.stringify({
             // event: 'message',
             event: 'events',
-            data: '{"Volt":"220.2","Current":"15.8","Power": "2.2"}'
+            data: thisData[count]
         })
-        console.log(data)
         ws.send(data)
-    }, 1000)
+    }, 10000)
     return () => clearInterval(autoSend)
 }
 

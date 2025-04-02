@@ -23,6 +23,7 @@
     "autoprefixer": "latest",
     "clean-css": "latest",
     "clsx": "latest",
+    "dayjs": "^1.11.13",
     "jotai": "^2.12.2",
     "next": "latest",
     "postcss": "latest",
