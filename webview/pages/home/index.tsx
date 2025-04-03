@@ -6,6 +6,7 @@ import ViewDataAllMpptSolarCharger from '../../src/modules/ViewDataAllMpptSolarC
 import Container from '@mui/material/Container'
 import TimeClock from '../../src/shared/TimeClock'
 import ViewDataAllBCU from '../../src/modules/ViewDataAllBCU'
+import ProviderMain from '../../src/components/Provider/ProviderMain'
 
 const Index = () => {
 
@@ -15,10 +16,7 @@ const Index = () => {
 
     return (
         <>
-            <Container>
-                <TimeClock />
-                {/* {readyState} */}
-                {/* {JSON.stringify(thidData)} */}
+            <ProviderMain>
                 {nowData !== null && (
                     <>
                         {/* <ListView data={nowData} /> */}
@@ -26,8 +24,7 @@ const Index = () => {
                         {/* <ViewDataAllMpptSolarCharger data={nowData['DATA_ALL_MPPT_SOLAR_CHARGER']} /> */}
                     </>
                 )}
-            </Container>
-
+            </ProviderMain>
         </>
     )
 }

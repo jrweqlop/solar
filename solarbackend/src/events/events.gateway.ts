@@ -6,6 +6,7 @@ import { BadGatewayException, OnModuleDestroy, OnModuleInit } from '@nestjs/comm
 
 // @WebSocketGateway()
 @WebSocketGateway(81, {
+  cors: true,
   // transports: ['websocket'],
   path: 'device'
 })
