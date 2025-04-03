@@ -16,6 +16,7 @@ services:
 
   solarbackend:
     build: ./solarbackend
+    image: jrweqlop/nestjs-ecu-solar-charge
     container_name: solar-backend
     platform: linux/amd64
     restart: always
