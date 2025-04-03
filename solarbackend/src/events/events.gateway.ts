@@ -7,7 +7,7 @@ import { BadGatewayException, OnModuleDestroy, OnModuleInit } from '@nestjs/comm
 // @WebSocketGateway()
 @WebSocketGateway(81, {
   cors: true,
-  // transports: ['websocket'],
+  transports: ['websocket'],
   path: 'device'
 })
 export class EventsGateway implements OnModuleInit, OnGatewayConnection, OnGatewayDisconnect {

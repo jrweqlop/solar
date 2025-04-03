@@ -6,7 +6,9 @@ import helmet from 'helmet';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true, });
   app.useWebSocketAdapter(new WsAdapter(app))
-
+  app.enableCors({
+    origin: '*'
+  })
   app.use(helmet({
     crossOriginEmbedderPolicy: false,
     contentSecurityPolicy: {
