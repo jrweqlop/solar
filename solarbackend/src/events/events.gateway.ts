@@ -30,7 +30,7 @@ export class EventsGateway implements OnModuleInit, OnGatewayConnection, OnGatew
       if (client.readyState === WebSocket.OPEN) {
         client.ping()
       }
-    }, 60000)
+    }, 300000)
     this.clients.set(client, interval);
     // ถ้า client ตอบ pong กลับมา แสดงว่ายังออนไลน์อยู่
     client.on('pong', () => {
