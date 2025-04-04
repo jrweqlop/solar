@@ -20,8 +20,8 @@ services:
     container_name: solar-backend
     platform: linux/amd64
     restart: always
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
     environment:
       # - DATABASE_URL=postgresql://postgres:1234567890@db:5432/solar-ev-charger?schema=public
       - DATABASE_URL=postgresql://root:WXkf1IzJrqmvF3kiVUUtkfbq1YbGq14g@dpg-cvn17r7gi27c73beoba0-a.oregon-postgres.render.com/ecusolarcharge
