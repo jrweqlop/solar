@@ -19,6 +19,7 @@ RUN npm run generate
 RUN npm run build
 
 # เปิดพอร์ตที่แอปจะใช้งาน
+EXPOSE 81
 EXPOSE 4500
 
 # คำสั่งในการรันแอป

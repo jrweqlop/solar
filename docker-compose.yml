@@ -26,6 +26,7 @@ services:
       - DATABASE_URL=postgresql://postgres:1234567890@db:5432/solar-ev-charger?schema=public
     ports:
       - "7550:4500"
+      - "7755:81"
     networks:
       - postgres
 
