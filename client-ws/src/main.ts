@@ -4,8 +4,8 @@ import { WebSocket } from "ws";
 import { thisData } from "./dummy/file";
 
 // const WebSocket = require('ws')
-// const ws = new WebSocket('ws://192.168.1.118:81/device')
-const ws = new WebSocket('ws://192.168.1.121:7755/device')
+const ws = new WebSocket('ws://192.168.1.118:81/device')
+// const ws = new WebSocket('ws://192.168.1.121:7755/device')
 let count = 0
 let connect = false
 

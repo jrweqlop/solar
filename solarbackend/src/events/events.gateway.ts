@@ -3,6 +3,7 @@ import { EventsService } from './events.service';
 import { Server, WebSocket } from 'ws';
 import { Prisma } from '@prisma/client';
 import { BadGatewayException, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 
 // @WebSocketGateway()
 @WebSocketGateway(81, {
@@ -61,6 +62,7 @@ export class EventsGateway implements OnModuleInit, OnGatewayConnection, OnGatew
     client.send('pong')
   }
 
+  @Throttle({ default: { limit: 2, ttl: 50000 } })
   @SubscribeMessage('events')
   handleEvent(@MessageBody() data: unknown, @ConnectedSocket() client: WebSocket): WsResponse<any> {
     if (typeof data === 'string') {

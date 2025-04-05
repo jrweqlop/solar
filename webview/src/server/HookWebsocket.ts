@@ -1,12 +1,12 @@
 import { useAtom } from "jotai"
-import { RefCallback, useEffect, useState } from "react"
+import { useEffect } from "react"
 import useWebSocket, { ReadyState } from "react-use-websocket"
-import { DataWsJson } from "./ProviderWebsocket"
+import { DataWsJson, NowDataWsJson } from "./ProviderWebsocket"
 
 const HookWebsocket = (url: string) => {
 
     const [message, setMessage] = useAtom<InternetData[]>(DataWsJson)
-    const [nowData, setNowData] = useState<InternetData | null>(null)
+    const [nowData, setNowData] = useAtom<InternetData | null>(NowDataWsJson)
 
     const { readyState, lastJsonMessage } = useWebSocket(url, {
         shouldReconnect: (e) => true
@@ -33,17 +33,6 @@ const HookWebsocket = (url: string) => {
         setNowData(data)
         setMessage((e) => [...e, data])
     })
-
-    // useEffect(() => {
-    //     if (readyState === ReadyState.OPEN) {
-    //         if (lastJsonMessage !== null) {
-    //             const value = lastJsonMessage as InternetData
-    //             // setMessage((prev) => [...prev, value])
-    //             setMessage([...message, value])
-    //             setNowData(value)
-    //         }
-    //     }
-    // }, [lastJsonMessage, readyState])
 
     return { message, readyState, nowData }
 }

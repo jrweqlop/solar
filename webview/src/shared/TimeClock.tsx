@@ -1,9 +1,12 @@
+import { Typography } from '@mui/material'
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 
 const TimeClock = () => {
 
-  const [nowTime, setNowTime] = useState<string>('')
+  const lastTime = dayjs().format('DD/MM/YYYY HH:mm:ss A')
+
+  const [nowTime, setNowTime] = useState<string | null>(null)
 
   // useEffect(() => {
   //   const intervalTime = setInterval(() => {
@@ -29,7 +32,9 @@ const TimeClock = () => {
 
   return (
     <>
-      {nowTime}
+      <Typography textAlign={'center'} pt={2}>
+        {nowTime ? lastTime : nowTime}
+      </Typography>
     </>
   )
 }

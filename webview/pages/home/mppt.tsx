@@ -1,19 +1,22 @@
-import React from 'react'
-import HookWebsocket from '../../src/server/HookWebsocket'
 import ProviderMain from '../../src/components/Provider/ProviderMain'
+import ViewDataAllMpptSolarCharger from '../../src/modules/ViewDataAllMpptSolarCharger'
+import { useAtom } from 'jotai'
+import { NowDataWsJson } from '../../src/server/ProviderWebsocket'
+import { useRouter } from 'next/router'
 
-const mppt = () => {
+const Mppt = () => {
 
-    const { readyState, nowData } = HookWebsocket('ws://localhost:81/device')
-
+    const [nowData] = useAtom<InternetData | null>(NowDataWsJson)
 
     return (
         <>
-            <ProviderMain>
-                <></>
+            <ProviderMain path=''>
+                <>
+                    {nowData !== null && <ViewDataAllMpptSolarCharger data={nowData['DATA_ALL_MPPT_SOLAR_CHARGER']} />}
+                </>
             </ProviderMain>
         </>
     )
 }
 
-export default mppt
+export default Mppt
