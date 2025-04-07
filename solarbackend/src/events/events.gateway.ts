@@ -25,7 +25,7 @@ export class EventsGateway implements OnModuleInit, OnGatewayConnection, OnGatew
 
   // เมื่อ client เชื่อมต่อ
   handleConnection(client: WebSocket) {
-    console.log('Client connected: ');
+    console.log('Client connected : ');
 
     const interval = setInterval(() => {
       if (client.readyState === WebSocket.OPEN) {
@@ -62,7 +62,6 @@ export class EventsGateway implements OnModuleInit, OnGatewayConnection, OnGatew
     client.send('pong')
   }
 
-  @Throttle({ default: { limit: 2, ttl: 50000 } })
   @SubscribeMessage('events')
   handleEvent(@MessageBody() data: unknown, @ConnectedSocket() client: WebSocket): WsResponse<any> {
     if (typeof data === 'string') {

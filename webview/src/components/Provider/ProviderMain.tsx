@@ -9,7 +9,9 @@ import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import TimeClock from '../../shared/TimeClock';
+import TimeClock, { nowTime } from '../../shared/TimeClock';
+import { useRouter } from 'next/navigation';
+import { useAtom } from 'jotai';
 
 interface ProviderMainProps {
     path: string,
@@ -21,8 +23,8 @@ interface ListMenuViewProps {
 }
 
 const ListMenuView: ListMenuViewProps[] = [
-    { id: 1, name: 'MonitorFrom GD32', path: '' },
-    { id: 2, name: 'Status Command On', path: '' },
+    { id: 1, name: 'MonitorFrom GD32', path: '/home' },
+    { id: 2, name: 'Status Command On', path: '/home/mppt' },
     { id: 3, name: 'Flag Child Control Is Down', path: '' },
     { id: 4, name: 'BCU', path: '' },
     { id: 5, name: 'DC FastCharger', path: '' },
@@ -35,15 +37,25 @@ const drawerWidth = 240;
 
 export const ProviderMain: React.FC<ProviderMainProps> = ({ children, path }) => {
 
+    const router = useRouter()
+
     const [selectView, setSelectView] = useState<ListMenuViewProps>(ListMenuView[0])
+    const [lastTime] = useAtom(nowTime)
+
+    const changePage = (item: ListMenuViewProps) => {
+        router.push(item.path)
+    }
 
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-                <Toolbar>
+                <Toolbar >
                     <Typography variant="h6" noWrap component="div">
                         Solar Charger
+                    </Typography>
+                    <Typography variant='h6'>
+                        {lastTime}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -57,12 +69,11 @@ export const ProviderMain: React.FC<ProviderMainProps> = ({ children, path }) =>
             >
                 <Toolbar />
                 <Box sx={{ overflow: 'auto' }}>
-                    <TimeClock />
                     <List>
-                        {ListMenuView.map((text, index) => (
-                            <ListItem key={text.id} disablePadding>
-                                <ListItemButton>
-                                    <ListItemText primary={text.name} />
+                        {ListMenuView.map((item, index) => (
+                            <ListItem key={item.id} disablePadding>
+                                <ListItemButton onClick={() => changePage(item)}>
+                                    <ListItemText primary={item.name} />
                                 </ListItemButton>
                             </ListItem>
                         ))}

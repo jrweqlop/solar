@@ -24,7 +24,7 @@ const ViewDataAllMpptSolarCharger: React.FC<ViewDataAllMpptSolarChargerProps> = 
 
     return (
         <>
-            <Grid container minWidth={800} spacing={1} justifyContent={'center'}>
+            <Grid container spacing={1} justifyContent={'center'}>
                 <Grid size={12} container >
                     <Grid size={8}>
                         <List>

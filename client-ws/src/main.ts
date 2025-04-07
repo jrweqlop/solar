@@ -4,58 +4,73 @@ import { WebSocket } from "ws";
 import { thisData } from "./dummy/file";
 
 // const WebSocket = require('ws')
-const ws = new WebSocket('ws://192.168.1.118:81/device')
 // const ws = new WebSocket('ws://192.168.1.121:7755/device')
+// const ws = new WebSocket('ws://localhost:81/device')
 let count = 0
-let connect = false
+let retryCount = 0;
+const url = 'ws://localhost:81/device'
 
-ws.on('open', () => {
-    connect = true
-    // ws.send(JSON.stringify({
-    //     event: 'events',
-    //     data: 'test',
-    // }))
-    // const data = JSON.stringify({
-    //     event: 'message',
-    //     data: `{"Volt": "220.2", "Current": "15.8", "Power": "2.2"}`
-    // })
-    // const data = `{Volt: "220.2", Current: "15.8", Power: "2.2" }`
-    // console.log(data)
-    // ws.send(data)
-    autoRun()
-})
-const autoConnect = () => {
-    if (connect === false) {
-        ws.CONNECTING
+const StartConnect = () => {
+    const ws = new WebSocket(url)
+
+    ws.on('open', () => {
+        loadAuto()
+
+    })
+
+    ws.on('error', () => {
+        console.log('error connect')
+        // console.log('check')
+        ws.close(1012, 'Normal Closure')
+        // ws.CLOSING
+        // reconnect()
+    })
+
+    ws.on('message', (data: Buffer) => {
+        console.log('receive data : ', data.toString())
+    })
+
+    ws.on('close', (code: number, reason: Buffer) => {
+        console.log(code)
+        console.log(reason.toString())
+        function reconnectWithBackoff() {
+            const delay = Math.min(1000 * Math.pow(2, retryCount), 10000); // max 10s
+            setTimeout(() => {
+                retryCount++;
+                reconnect();
+            }, delay);
+        }
+        // setTimeout(() => { reconnect() }, 1000);
+        reconnectWithBackoff()
+    })
+
+    const loadAuto = () => {
+        const autoSend = setInterval(() => {
+            if (count === thisData.length - 1) count = 0
+            count += 1
+            console.log('sending :', count)
+            const data = JSON.stringify({
+                // event: 'message',
+                event: 'events',
+                data: thisData[count]
+            })
+            // console.log(thisData[count])
+            // console.log(ws)
+            ws.send(data)
+            // if (ws !== null)
+            // else console.log('ws is null')
+        }, 10000)
+        return () => clearInterval(autoSend)
     }
+    return ws
 }
 
-const autoRun = () => {
-    const autoSend = setInterval(() => {
-        if (count === thisData.length - 1) count = 0
-        count += 1
-        console.log('sending :', count)
-        const data = JSON.stringify({
-            // event: 'message',
-            event: 'events',
-            data: thisData[count]
-        })
-        ws.send(data)
+function reconnect() {
+    // console.log(`🔄 Attempting to reconnect in ${10000}s...`);
+    const result = setInterval(() => {
+        StartConnect()
     }, 10000)
-    return () => clearInterval(autoSend)
+    return () => clearInterval(result)
 }
 
-ws.on('message', (data: Buffer) => {
-    console.log('Received message:', data.toString());
-});
-
-ws.on('error', () => {
-    console.log('fail connect')
-})
-
-ws.on('close', () => {
-    console.log('Connection closed');
-    connect = false
-});
-
-autoConnect()
+StartConnect()

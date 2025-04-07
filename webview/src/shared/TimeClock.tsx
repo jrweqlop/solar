@@ -1,20 +1,17 @@
 import { Typography } from '@mui/material'
 import dayjs from 'dayjs'
-import React, { useEffect, useState } from 'react'
+import { atom, useAtom } from 'jotai'
+import React, { useEffect } from 'react'
 
-const TimeClock = () => {
+export const nowTime = atom<string | null>(null)
 
-  const lastTime = dayjs().format('DD/MM/YYYY HH:mm:ss A')
+interface TimeCLockProps {
+  children: React.ReactNode
+}
 
-  const [nowTime, setNowTime] = useState<string | null>(null)
+const TimeClock: React.FC<TimeCLockProps> = ({ children }) => {
 
-  // useEffect(() => {
-  //   const intervalTime = setInterval(() => {
-  //     const value = dayjs().format('DD/MM/YYYY HH:mm:ss A')
-  //     setNowTime(value)
-  //   }, 1000)
-  //   return () => clearInterval(intervalTime)
-  // }, [])
+  const [lastTime, setLastTime] = useAtom<string | null>(nowTime)
 
   const loadTime = (callback: (value: string) => void) => {
     useEffect(() => {
@@ -27,16 +24,15 @@ const TimeClock = () => {
   }
 
   loadTime((data: string) => {
-    setNowTime(data)
+    setLastTime(data)
   })
 
   return (
     <>
-      <Typography textAlign={'center'} pt={2}>
-        {nowTime ? lastTime : nowTime}
-      </Typography>
+      {children}
     </>
   )
+
 }
 
 export default TimeClock

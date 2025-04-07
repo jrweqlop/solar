@@ -10,7 +10,10 @@ export const DataWsJson = atom<InternetData[]>([])
 export const NowDataWsJson = atom<InternetData | null>(null)
 
 const ProviderWebsocket: React.FC<ProviderWebsocketProps> = ({ children }) => {
-    const { readyState, nowData } = HookWebsocket('ws://localhost:81/device')
+
+    const wsUrl = process.env.NEXT_PUBLIC_WS_CONNECT || `ws://localhost:81/device`
+
+    const { readyState, nowData } = HookWebsocket(wsUrl)
 
     return (
         <>
