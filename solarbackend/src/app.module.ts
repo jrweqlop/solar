@@ -3,10 +3,19 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EventsModule } from './events/events.module';
 import { DataSolarModule } from './data-solar/data-solar.module';
+import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
-  imports: [EventsModule, DataSolarModule],
+  imports: [EventsModule, DataSolarModule, ThrottlerModule.forRoot([
+    { limit: 10, ttl: seconds(10) }
+  ])],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
+    }
+  ],
 })
 export class AppModule { }

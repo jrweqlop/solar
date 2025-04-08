@@ -4,8 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class DataSolarService {
 
-  constructor(private readonly prisma: PrismaService) { }
-
+  constructor(private readonly prisma: PrismaService,) { }
   async findAllMppt(): Promise<DataAllMpptSolarCharger[]> {
     const result = await this.prisma.dATA_ALL_MPPT_SOLAR_CHARGER.findMany({
       orderBy: { createAted: 'desc' }, take: 10

@@ -14,7 +14,7 @@ const Index = () => {
             <ProviderMain path=''>
                 <>
                     {nowData !== null && <ViewDataAllBCU data={nowData['DATA_ALL_BCU']} />}
-                    <TabStorage />
+                    <TabStorage data={nowData ? nowData['DATA_ALL_BCU'] : null} />
                 </>
             </ProviderMain>
         </>

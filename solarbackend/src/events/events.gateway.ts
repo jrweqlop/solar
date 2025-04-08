@@ -1,11 +1,9 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, WsException, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, WsResponse, ConnectedSocket } from '@nestjs/websockets';
+import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, WsException, OnGatewayConnection, OnGatewayDisconnect, WsResponse, ConnectedSocket } from '@nestjs/websockets';
 import { EventsService } from './events.service';
 import { Server, WebSocket } from 'ws';
-import { Prisma } from '@prisma/client';
-import { BadGatewayException, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { Throttle } from '@nestjs/throttler';
+import { OnModuleInit, UseInterceptors } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
-// @WebSocketGateway()
 @WebSocketGateway(81, {
   cors: true,
   transports: ['websocket'],
@@ -24,9 +22,8 @@ export class EventsGateway implements OnModuleInit, OnGatewayConnection, OnGatew
   private clients: Map<WebSocket, NodeJS.Timeout> = new Map();
 
   // เมื่อ client เชื่อมต่อ
-  handleConnection(client: WebSocket) {
+  async handleConnection(client: WebSocket) {
     console.log('Client connected : ');
-
     const interval = setInterval(() => {
       if (client.readyState === WebSocket.OPEN) {
         client.ping()
@@ -49,29 +46,22 @@ export class EventsGateway implements OnModuleInit, OnGatewayConnection, OnGatew
     this.clients.delete(client);
   }
 
-  sendToClients(message: string, sender: WebSocket) {
-    this.server.clients.forEach((client: WebSocket) => {
-      if (client !== sender && client.readyState === client.OPEN) {
-        client.send(message); // ส่งข้อความไปยัง client
-      }
-    });
-  }
-
   @SubscribeMessage('ping')
   handlePig(@ConnectedSocket() client: WebSocket) {
     client.send('pong')
   }
 
+  @UseInterceptors(CacheInterceptor)
   @SubscribeMessage('events')
-  handleEvent(@MessageBody() data: unknown, @ConnectedSocket() client: WebSocket): WsResponse<any> {
+  async handleEvent(@MessageBody() data: unknown, @ConnectedSocket() client: WebSocket): Promise<WsResponse<any>> {
     if (typeof data === 'string') {
       const value = JSON.parse(data)
       if (typeof value !== 'object') throw new WsException('Invalid credentials.');
     }
     if (typeof data !== 'object') throw new WsException('Invalid credentials.');
     const thisData = data as InternetData
+    await this.eventsService.SetWebsocketCache(thisData, client)
     const result = { event: 'events', data: 'success send data' }
-    this.sendToClients(JSON.stringify(thisData), client)
     return result
   }
 

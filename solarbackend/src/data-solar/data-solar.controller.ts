@@ -1,12 +1,12 @@
 import { Controller, Get, InternalServerErrorException } from '@nestjs/common';
 import { DataSolarService } from './data-solar.service';
-import { Throttle } from '@nestjs/throttler';
+import { seconds, Throttle } from '@nestjs/throttler';
 
 @Controller('data-solar')
 export class DataSolarController {
   constructor(private readonly dataSolarService: DataSolarService) { }
 
-  @Throttle({ default: { limit: 15, ttl: 10000 } })
+  @Throttle({ default: { limit: 3, ttl: seconds(10) } })
   @Get('data/Mppt')
   async findAll(): Promise<DataAllMpptSolarCharger[]> {
     const result = await this.dataSolarService.findAllMppt()
@@ -14,7 +14,7 @@ export class DataSolarController {
     return result
   }
 
-  @Throttle({ default: { limit: 10, ttl: 10000 } })
+  @Throttle({ default: { limit: 3, ttl: seconds(10) } })
   @Get('data/Invertor')
   async findAllInVertor(): Promise<DataAllHvInverter[]> {
     const result = await this.dataSolarService.findAllIntertor()
