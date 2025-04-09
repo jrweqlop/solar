@@ -23,13 +23,13 @@ interface ListMenuViewProps {
 }
 
 const ListMenuView: ListMenuViewProps[] = [
-    { id: 1, name: 'MonitorFrom GD32', path: '/home' },
-    { id: 2, name: 'Status Command On', path: '/home' },
-    { id: 3, name: 'Flag Child Control Is Down', path: '/home' },
+    // { id: 1, name: 'MonitorFrom GD32', path: '/home' },
+    // { id: 2, name: 'Status Command On', path: '/home' },
+    // { id: 3, name: 'Flag Child Control Is Down', path: '/home' },
     { id: 4, name: 'BCU', path: '/home' },
-    { id: 5, name: 'DC FastCharger', path: '/home' },
-    { id: 6, name: 'EvToEss', path: '/home' },
-    { id: 7, name: 'HV Inverter', path: '/home' },
+    // { id: 5, name: 'DC FastCharger', path: '/home' },
+    // { id: 6, name: 'EvToEss', path: '/home' },
+    // { id: 7, name: 'HV Inverter', path: '/home' },
     { id: 8, name: 'MPPT Solar Charger', path: '/home/mppt' },
 ]
 

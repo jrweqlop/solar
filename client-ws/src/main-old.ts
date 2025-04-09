@@ -9,21 +9,19 @@ import { thisData } from "./dummy/file";
 let count = 0
 let retryCount = 0;
 const url = 'ws://localhost:81/device'
-let ws: WebSocket | null = null
 
 const StartConnect = () => {
-    ws = new WebSocket(url)
+    const ws = new WebSocket(url)
 
     ws.on('open', () => {
-        if (ws?.OPEN) {
-            loadAuto()
-        }
+        loadAuto()
+
     })
 
     ws.on('error', () => {
         console.log('error connect')
         // console.log('check')
-        ws?.close(1012, 'Normal Closure')
+        ws.close(1012, 'Normal Closure')
         // ws.CLOSING
         // reconnect()
     })
@@ -58,7 +56,7 @@ const StartConnect = () => {
             })
             // console.log(thisData[count])
             // console.log(ws)
-            ws?.send(data)
+            ws.send(data)
             // if (ws !== null)
             // else console.log('ws is null')
         }, 10000)

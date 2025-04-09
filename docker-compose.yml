@@ -30,6 +30,16 @@ services:
       - "7755:81"
     networks:
       - postgres
+  web:
+    build: ./webview
+    image: jrweqlop/nestjs-ecu-solar-charge
+    container_name: solar-backend
+    platform: linux/amd64
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_WS_CONNECT=ws://3.107.193.91:7755/device
 
 networks:
   postgres:

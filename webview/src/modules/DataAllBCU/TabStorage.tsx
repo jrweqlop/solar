@@ -41,6 +41,7 @@ const TabStorage: React.FC<TabStorageProps> = ({ data }) => {
         { id: 3, value: '3', name: 'High Voltage Energy Storage 1 Data 3', key: 'ID_18F092F3_HighVoltageEnergyStorage1Data3' },
         { id: 4, value: '4', name: 'High Voltage Energy Storage 1 Data 4', key: 'ID_18F093F3_HighVoltageEnergyStorage1Data4' },
         { id: 5, value: '5', name: 'High Voltage Energy Storage 1 Data 5', key: 'ID_18F094F3_HighVoltageEnergyStorage1Data5' },
+        { id: 6, value: '6', name: 'High Voltage Energy Storage 1 Status 1', key: 'ID_18F096F3_HighVoltageEnergyStorage1Status1' },
     ]
 
     return (

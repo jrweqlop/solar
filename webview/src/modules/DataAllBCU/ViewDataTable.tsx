@@ -30,7 +30,7 @@ const ViewDataTable: React.FC<ViewDataTableProps> = ({ data }) => {
                                             bgcolor: '#ededed'
                                         }
                                     }} size={4} key={item[0]}>
-                                        <ListItemText primary={item[0]} secondary={item[1]} />
+                                        <ListItemText primary={item[0]} secondary={String(item[1])} />
                                     </Grid>
                                 )
                             })}

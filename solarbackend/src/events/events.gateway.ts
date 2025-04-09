@@ -22,7 +22,7 @@ export class EventsGateway implements OnModuleInit, OnGatewayConnection, OnGatew
   private clients: Map<WebSocket, NodeJS.Timeout> = new Map();
 
   // เมื่อ client เชื่อมต่อ
-  async handleConnection(client: WebSocket) {
+  handleConnection(client: WebSocket) {
     console.log('Client connected : ');
     const interval = setInterval(() => {
       if (client.readyState === WebSocket.OPEN) {
