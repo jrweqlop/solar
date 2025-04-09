@@ -30,10 +30,6 @@ const ViewDataAllMpptSolarCharger: React.FC<ViewDataAllMpptSolarChargerProps> = 
                         <List>
                             {otherData.map((item) => {
                                 return (
-                                    // <Grid size={12} container key={item.id}>
-                                    //     <Grid size={{ xs: 12, md: 8 }}>{item.name}</Grid>
-                                    //     <Grid size={{ xs: 6, md: 4 }} textAlign={'right'}>{item.value}</Grid>
-                                    // </Grid>
                                     <ListItem key={item.id}>
                                         <ListItemText primary={item.name} secondary={item.value} />
                                     </ListItem>

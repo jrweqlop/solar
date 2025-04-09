@@ -9,10 +9,6 @@ interface ViewDataTableProps {
 
 const ViewDataTable: React.FC<ViewDataTableProps> = ({ data }) => {
 
-    useEffect(() => {
-        console.log(data)
-    }, [data])
-
     if (data !== null) {
         return (
             <>
@@ -20,7 +16,6 @@ const ViewDataTable: React.FC<ViewDataTableProps> = ({ data }) => {
                     {data && (
                         <>
                             {Object.entries(data).map((item) => {
-                                console.log
                                 return (
                                     <Grid sx={{
                                         border: '2px solid black',

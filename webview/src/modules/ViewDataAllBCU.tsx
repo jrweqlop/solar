@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid'
 import React, { useEffect, useState } from 'react'
 import BatteryUnknownIcon from '@mui/icons-material/BatteryUnknown';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import ListItemText from '@mui/material/ListItemText';
 
 interface ViewDataAllBCUProps {
@@ -51,9 +50,12 @@ const ViewDataAllBCU: React.FC<ViewDataAllBCUProps> = ({ data }) => {
                         </Typography>
                     </Grid>
                     {Object.entries(dataCal).map((item, index) => {
+                        const thisValue = typeof item[1] === 'number' ? item[1].toFixed(2) : item[1]
+                        // console.log(typeof item[1])
                         return (
                             <Grid sx={{ border: '2px solid black', borderRadius: 3, '&:hover': { bgcolor: ' #d6d6d6' } }} textAlign={'center'} size={{ xs: 6, sm: 4, md: 3, lg: 2 }} key={index}>
-                                <ListItemText primary={item[0]} secondary={item[1]} />
+                                {/* <ListItemText primary={item[0]} secondary={item[1]} /> */}
+                                <ListItemText primary={item[0]} secondary={thisValue} />
                             </Grid>
                         )
                     })}

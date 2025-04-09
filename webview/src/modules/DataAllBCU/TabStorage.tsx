@@ -1,15 +1,7 @@
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
 import Accordion from '@mui/material/Accordion';
-import AccordionActions from '@mui/material/AccordionActions';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import React, { ReactNode } from 'react'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -20,7 +12,6 @@ interface TabViewProps {
     value: string
     name: string
     key: string
-    // view: ReactNode
 }
 
 interface TabStorageProps {
@@ -28,12 +19,6 @@ interface TabStorageProps {
 }
 
 const TabStorage: React.FC<TabStorageProps> = ({ data }) => {
-
-    const [value, setValue] = React.useState('1');
-
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-    };
 
     const TabView: TabViewProps[] = [
         { id: 1, value: '1', name: 'High Voltage Energy Storage 1 Data 1', key: 'ID_18F090F3_HighVoltageEnergyStorage1Data1' },

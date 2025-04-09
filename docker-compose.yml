@@ -32,8 +32,8 @@ services:
       - postgres
   web:
     build: ./webview
-    image: jrweqlop/nestjs-ecu-solar-charge
-    container_name: solar-backend
+    image: nextjs-solar-webview
+    container_name: solar-web-view
     platform: linux/amd64
     restart: always
     ports:
