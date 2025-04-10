@@ -1,78 +1,56 @@
-import { join } from "path";
-import { clearInterval } from "timers";
-import { WebSocket } from "ws";
-import { thisData } from "./dummy/file";
-
-// const WebSocket = require('ws')
-// const ws = new WebSocket('ws://192.168.1.121:7755/device')
-// const ws = new WebSocket('ws://localhost:81/device')
-let count = 0
-let retryCount = 0;
+import { WebSocket } from "ws"
+import { thisData } from "./dummy/file"
 const url = 'ws://localhost:81/device'
-let ws: WebSocket | null = null
 
-const StartConnect = () => {
-    ws = new WebSocket(url)
 
-    ws.on('open', () => {
-        if (ws?.OPEN) {
-            loadAuto()
-        }
-    })
 
-    ws.on('error', () => {
-        console.log('error connect')
-        // console.log('check')
-        ws?.close(1012, 'Normal Closure')
-        // ws.CLOSING
-        // reconnect()
+
+const connect = (address: string) => {
+    let ws = new WebSocket(address)
+    let count = 0
+
+    ws.on('open', (client: WebSocket) => {
+        console.log('count send : ', count)
+        autoSend(ws)
     })
 
     ws.on('message', (data: Buffer) => {
-        console.log('receive data : ', data.toString())
+        console.log('server return : ', data.toString())
+        console.log('count return : ', count)
+        count += 1
     })
 
-    ws.on('close', (code: number, reason: Buffer) => {
-        console.log(code)
-        console.log(reason.toString())
-        function reconnectWithBackoff() {
-            const delay = Math.min(1000 * Math.pow(2, retryCount), 10000); // max 10s
-            setTimeout(() => {
-                retryCount++;
-                reconnect();
-            }, delay);
+    ws.on('error', (code: number, reason: any) => {
+        console.log('error code ', code)
+        console.log('text', reason)
+        ws.close()
+    })
+
+    ws.on('close', () => {
+        setTimeout(() => {
+            connect(url)
+        }, 5000);
+    })
+
+    const autoSend = (ws: WebSocket | null) => {
+        if (ws !== null && ws.readyState === ws.OPEN) {
+            const autoTime = setInterval(() => {
+                if (ws.readyState === ws.OPEN) {
+                    console.log('load count : ', count)
+                    if (count === thisData.length - 1) count = 0
+                    const value = {
+                        event: 'events',
+                        data: thisData[count]
+                    }
+                    ws.send(JSON.stringify(value))
+                }
+            }, 10000)
+            return () => autoTime
         }
-        // setTimeout(() => { reconnect() }, 1000);
-        reconnectWithBackoff()
-    })
-
-    const loadAuto = () => {
-        const autoSend = setInterval(() => {
-            if (count === thisData.length - 1) count = 0
-            count += 1
-            console.log('sending :', count)
-            const data = JSON.stringify({
-                // event: 'message',
-                event: 'events',
-                data: thisData[count]
-            })
-            // console.log(thisData[count])
-            // console.log(ws)
-            ws?.send(data)
-            // if (ws !== null)
-            // else console.log('ws is null')
-        }, 10000)
-        return () => clearInterval(autoSend)
     }
+
     return ws
 }
 
-function reconnect() {
-    // console.log(`🔄 Attempting to reconnect in ${10000}s...`);
-    const result = setInterval(() => {
-        StartConnect()
-    }, 10000)
-    return () => clearInterval(result)
-}
+connect(url)
 
-StartConnect()

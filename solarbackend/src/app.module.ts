@@ -5,9 +5,10 @@ import { EventsModule } from './events/events.module';
 import { DataSolarModule } from './data-solar/data-solar.module';
 import { seconds, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
-  imports: [EventsModule, DataSolarModule, ThrottlerModule.forRoot([
+  imports: [CacheModule.register(), EventsModule, DataSolarModule, ThrottlerModule.forRoot([
     { limit: 10, ttl: seconds(10) }
   ])],
   controllers: [AppController],

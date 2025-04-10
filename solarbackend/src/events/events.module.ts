@@ -8,12 +8,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [CacheModule.register(), ScheduleModule.forRoot()],
-  providers: [EventsGateway, EventsService, PrismaService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
-    },
-  ],
+  providers: [EventsGateway, EventsService, PrismaService],
   exports: [EventsService]
 })
 export class EventsModule { }

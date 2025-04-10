@@ -21,10 +21,11 @@ export class EventsService {
     await this.cacheManager.set('client_send', sender)
   }
 
-  async GetWebSocketCache() {
+  async GetWebSocketCache(): Promise<{ client: WebSocket | null, data: InternetData | null }> {
     const result = await this.cacheManager.get('lastWebsocketData') as InternetData
     const sender = await this.cacheManager.get('client_send') as WebSocket
-    return [JSON.stringify(result), sender]
+    const data = { client: sender, data: result }
+    return data
   }
 
   async createData(data1: InternetData['DATA_ALL_HV_Inverter'], data2: InternetData['DATA_ALL_MPPT_SOLAR_CHARGER']) {
