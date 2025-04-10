@@ -100,7 +100,7 @@ const TabReport: React.FC<TabReportProps> = ({ data }) => {
                     <Table sx={{ minWidth: 650, fontSize: 50 }} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Dessert (100g serving)</TableCell>
+                                <TableCell></TableCell>
                                 <TableCell align="right">Min</TableCell>
                                 <TableCell align="right">Max</TableCell>
                                 <TableCell align="right">AVG</TableCell>
