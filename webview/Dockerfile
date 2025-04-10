@@ -9,6 +9,10 @@ RUN npm install
 
 # คัดลอก source code แล้ว build
 COPY . .
+
+ARG NEXT_PUBLIC_WS_CONNECT
+ENV NEXT_PUBLIC_WS_CONNECT=$NEXT_PUBLIC_WS_CONNECT
+
 RUN npm run build
 
 # ขั้นตอนที่ 2: Production Image
@@ -25,6 +29,7 @@ COPY --from=builder /app/public ./public
 
 # Set environment variables (เลือกใส่ตามต้องการ)
 ENV NODE_ENV=production
+# ENV NEXT_PUBLIC_WS_CONNECT=${NEXT_PUBLIC_WS_CONNECT}
 
 EXPOSE 3000
 

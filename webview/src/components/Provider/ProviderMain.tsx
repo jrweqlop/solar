@@ -12,6 +12,9 @@ import ListItemText from '@mui/material/ListItemText';
 import TimeClock, { nowTime } from '../../shared/TimeClock';
 import { useRouter } from 'next/navigation';
 import { useAtom } from 'jotai';
+import Stack from '@mui/material/Stack';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import HomeIcon from '@mui/icons-material/Home';
 
 interface ProviderMainProps {
     path: string,
@@ -23,6 +26,7 @@ interface ListMenuViewProps {
 }
 
 const ListMenuView: ListMenuViewProps[] = [
+    { id: 1, name: 'home', path: '/' },
     // { id: 1, name: 'MonitorFrom GD32', path: '/home' },
     // { id: 2, name: 'Status Command On', path: '/home' },
     // { id: 3, name: 'Flag Child Control Is Down', path: '/home' },
@@ -51,12 +55,14 @@ export const ProviderMain: React.FC<ProviderMainProps> = ({ children, path }) =>
             <CssBaseline />
             <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <Toolbar >
-                    <Typography variant="h6" noWrap component="div">
-                        Solar Charger
-                    </Typography>
-                    <Typography variant='h6'>
-                        {lastTime}
-                    </Typography>
+                    <Stack width={'100%'} direction={'row'} justifyContent={'space-between'}>
+                        <Typography variant="h6" noWrap component="div">
+                            Solar Charger
+                        </Typography>
+                        <Typography variant='h6'>
+                            {lastTime}
+                        </Typography>
+                    </Stack>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -73,7 +79,13 @@ export const ProviderMain: React.FC<ProviderMainProps> = ({ children, path }) =>
                         {ListMenuView.map((item, index) => (
                             <ListItem key={item.id} disablePadding>
                                 <ListItemButton onClick={() => changePage(item)}>
+                                    {item.name === 'home' && (
+                                        <ListItemIcon>
+                                            <HomeIcon />
+                                        </ListItemIcon>
+                                    )}
                                     <ListItemText primary={item.name} />
+
                                 </ListItemButton>
                             </ListItem>
                         ))}

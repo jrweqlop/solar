@@ -31,15 +31,18 @@ services:
     networks:
       - postgres
   web:
-    build: ./webview
+    build:
+      context: ./webview
+      args:
+        NEXT_PUBLIC_WS_CONNECT: ws://3.107.193.91:7755/device
     image: nextjs-solar-webview
     container_name: solar-web-view
     platform: linux/amd64
     restart: always
-    ports:
-      - "3000:3000"
     environment:
       - NEXT_PUBLIC_WS_CONNECT=ws://3.107.193.91:7755/device
+    ports:
+      - "3000:3000"
 
 networks:
   postgres:
