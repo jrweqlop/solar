@@ -2,9 +2,6 @@ import { WebSocket } from "ws"
 import { thisData } from "./dummy/file"
 const url = 'ws://localhost:81/device'
 
-
-
-
 const connect = (address: string) => {
     let ws = new WebSocket(address)
     let count = 0

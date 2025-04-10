@@ -51,7 +51,6 @@ export class EventsGateway implements OnModuleInit, OnGatewayConnection, OnGatew
     client.send('pong')
   }
 
-  @CacheKey('events')
   @UseInterceptors(CacheInterceptor)
   @SubscribeMessage('events')
   async handleEvent(@MessageBody() data: unknown, @ConnectedSocket() client: WebSocket): Promise<WsResponse<any>> {
@@ -61,7 +60,6 @@ export class EventsGateway implements OnModuleInit, OnGatewayConnection, OnGatew
     }
     if (typeof data !== 'object') throw new WsException('Invalid credentials.');
     const thisData = data as InternetData
-    console.log(thisData.Time)
     await this.eventsService.SetWebsocketCache(thisData, client)
     const result = { event: 'events', data: 'success send data' }
     return result

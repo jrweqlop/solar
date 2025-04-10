@@ -16,6 +16,8 @@ const ViewDataTable: React.FC<ViewDataTableProps> = ({ data }) => {
                     {data && (
                         <>
                             {Object.entries(data).map((item) => {
+                                let value = String(item[1])
+                                if (typeof item[1] === 'number') value = item[1].toFixed(2)
                                 return (
                                     <Grid sx={{
                                         border: '2px solid black',
@@ -25,7 +27,7 @@ const ViewDataTable: React.FC<ViewDataTableProps> = ({ data }) => {
                                             bgcolor: '#ededed'
                                         }
                                     }} size={4} key={item[0]}>
-                                        <ListItemText primary={item[0]} secondary={String(item[1])} />
+                                        <ListItemText primary={item[0]} secondary={value} />
                                     </Grid>
                                 )
                             })}
