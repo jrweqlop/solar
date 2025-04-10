@@ -14,14 +14,25 @@ services:
     networks:
       - postgres
 
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - redis_network
+
   solarbackend:
     build: ./solarbackend
     image: jrweqlop/nestjs-ecu-solar-charge
     container_name: solar-backend
     platform: linux/amd64
     restart: always
-    # depends_on:
-    #   - db
+    depends_on:
+      - redis
+      # - db
     environment:
       - DATABASE_URL=postgresql://postgres:1234567890@db:5432/solar-ev-charger?schema=public
       # - DATABASE_URL=postgresql://root:WXkf1IzJrqmvF3kiVUUtkfbq1YbGq14g@dpg-cvn17r7gi27c73beoba0-a.oregon-postgres.render.com/ecusolarcharge
@@ -30,6 +41,7 @@ services:
       - "7755:81"
     networks:
       - postgres
+      - redis_network
   web:
     build:
       context: ./webview
@@ -47,3 +59,7 @@ services:
 networks:
   postgres:
     driver: bridge
+  redis_network:
+    driver: bridge
+volumes:
+  redis_data:
