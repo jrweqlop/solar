@@ -26,7 +26,7 @@ const ViewDataTable: React.FC<ViewDataTableProps> = ({ data }) => {
                                         '&:hover': {
                                             bgcolor: '#ededed'
                                         }
-                                    }} size={4} key={item[0]}>
+                                    }} size={{ xs: 12, sm: 4 }} key={item[0]}>
                                         <ListItemText primary={item[0]} secondary={value} />
                                     </Grid>
                                 )

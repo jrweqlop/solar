@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import React, { ReactNode } from 'react'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ViewDataTable from './ViewDataTable';
+import Box from '@mui/material/Box';
 
 interface TabViewProps {
     id: number
@@ -32,28 +33,24 @@ const TabStorage: React.FC<TabStorageProps> = ({ data }) => {
 
     return (
         <>
-            <Grid container>
-                <Grid size={12} p={2}>
-                    <div>
-                        {TabView.map((item, index) => {
-                            return (
-                                <Accordion key={index}>
-                                    <AccordionSummary
-                                        expandIcon={<ExpandMoreIcon />}
-                                        aria-controls="panel1-content"
-                                        id="panel1-header"
-                                    >
-                                        <Typography component="span">{item.name}</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails >
-                                        <ViewDataTable data={data ? data[item.key as keyof InternetData['DATA_ALL_BCU']] : null} />
-                                    </AccordionDetails>
-                                </Accordion>
-                            )
-                        })}
-                    </div>
-                </Grid>
-            </Grid>
+            <Box width={'100%'}>
+                {TabView.map((item, index) => {
+                    return (
+                        <Accordion key={index}>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1-content"
+                                id="panel1-header"
+                            >
+                                <Typography component="span">{item.name}</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails >
+                                <ViewDataTable data={data ? data[item.key as keyof InternetData['DATA_ALL_BCU']] : null} />
+                            </AccordionDetails>
+                        </Accordion>
+                    )
+                })}
+            </Box>
         </>
     )
 }

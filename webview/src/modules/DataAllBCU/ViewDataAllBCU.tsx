@@ -56,7 +56,7 @@ const ViewDataAllBCU: React.FC<ViewDataAllBCUProps> = ({ data }) => {
                             <Typography component="span">Module Battery</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Grid container minWidth={500}>
+                            <Grid container >
                                 <Grid container size={12}>
                                     {batteryCellNum.map((item, index) => {
                                         return (

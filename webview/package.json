@@ -21,7 +21,6 @@
     "@mui/styled-engine-sc": "^7.0.1",
     "@mui/styles": "latest",
     "@mui/x-charts": "^7.28.0",
-    "@toolpad/core": "^0.13.0",
     "autoprefixer": "latest",
     "clean-css": "latest",
     "clsx": "latest",
