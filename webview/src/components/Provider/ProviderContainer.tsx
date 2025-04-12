@@ -20,11 +20,11 @@ const ProviderContainer: React.FC<ProviderContainerProps> = ({ children, path })
 
     const ListMenuView: ListMenuViewProps[] = [
         { id: 1, name: 'home', path: '/' },
-        // { id: 1, name: 'MonitorFrom GD32', path: '/home' },
-        // { id: 2, name: 'Status Command On', path: '/home' },
-        // { id: 3, name: 'Flag Child Control Is Down', path: '/home' },
+        { id: 1, name: 'MonitorFrom GD32', path: '/home/monitorfromgd32' },
+        { id: 2, name: 'Status Command On', path: '/home/statuscommandon' },
+        { id: 3, name: 'Flag Child Control Is Down', path: '/home/flagchildcontrolisdown' },
         { id: 4, name: 'BCU', path: '/home' },
-        // { id: 5, name: 'DC FastCharger', path: '/home' },
+        { id: 5, name: 'DC FastCharger', path: '/home/dcfastcharge' },
         { id: 6, name: 'EvToEss', path: '/home/evtoess' },
         { id: 7, name: 'HV Inverter', path: '/home/hvinverter' },
         { id: 8, name: 'MPPT Solar Charger', path: '/home/mppt' },
