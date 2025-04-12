@@ -6,23 +6,14 @@ import ViewDataMonitorFromGD32 from '../../src/modules/DataMonitorFromGD32/ViewD
 const Monitorfromgd32 = () => {
     const [nowData] = useAtom<InternetData | null>(NowDataWsJson)
 
-    if (nowData !== null) {
-
-        return (
+    return (
+        <ProviderContainer path=''>
             <>
-                <ProviderContainer path=''>
-                    <>
 
-                        <ViewDataMonitorFromGD32 data={nowData['monitorFrom_GD32']} />
-                    </>
-                </ProviderContainer>
+                <ViewDataMonitorFromGD32 data={nowData ? nowData['monitorFrom_GD32'] : null} />
             </>
-        )
-    } else {
-        return (
-            <></>
-        )
-    }
+        </ProviderContainer>
+    )
 }
 
 export default Monitorfromgd32

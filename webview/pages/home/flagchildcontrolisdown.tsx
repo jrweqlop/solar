@@ -6,22 +6,15 @@ import ViewFlagChildControlIsDown from '../../src/modules/DataFlagChildControlIs
 const FlagChildControlIsDown = () => {
     const [nowData] = useAtom<InternetData | null>(NowDataWsJson)
 
-    if (nowData !== null) {
-
-        return (
-            <>
-                <ProviderContainer path=''>
-                    <>
-                        <ViewFlagChildControlIsDown data={nowData['flagChildControlIsDown']} />
-                    </>
-                </ProviderContainer>
-            </>
-        )
-    } else {
-        return (
-            <></>
-        )
-    }
+    return (
+        <>
+            <ProviderContainer path=''>
+                <>
+                    <ViewFlagChildControlIsDown data={nowData ? nowData['flagChildControlIsDown'] : null} />
+                </>
+            </ProviderContainer>
+        </>
+    )
 }
 
 export default FlagChildControlIsDown

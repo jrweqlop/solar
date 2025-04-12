@@ -6,22 +6,13 @@ import ViewStatusCommandOn from '../../src/modules/DataStatusCommandOn/ViewStatu
 const StatusCommandOn = () => {
     const [nowData] = useAtom<InternetData | null>(NowDataWsJson)
 
-    if (nowData !== null) {
-
-        return (
+    return (
+        <ProviderContainer path=''>
             <>
-                <ProviderContainer path=''>
-                    <>
-                        <ViewStatusCommandOn data={nowData['statusCommandOn']} />
-                    </>
-                </ProviderContainer>
+                <ViewStatusCommandOn data={nowData ? nowData['statusCommandOn'] : null} />
             </>
-        )
-    } else {
-        return (
-            <></>
-        )
-    }
+        </ProviderContainer>
+    )
 }
 
 export default StatusCommandOn
