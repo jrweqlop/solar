@@ -36,7 +36,7 @@ const ProviderContainer: React.FC<ProviderContainerProps> = ({ children, path })
 
     return (
         <>
-            <Container>
+            <Container sx={{ minWidth: 450 }}>
                 <Grid container component={'main'}>
                     <Grid container size={{ xs: 12 }} mt={2} p={1} alignItems={'center'}>
                         <Grid size={{ xs: 6, md: 6 }} textAlign={{ xs: 'left', sm: 'left' }}>

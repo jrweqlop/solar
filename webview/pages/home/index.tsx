@@ -15,7 +15,7 @@ const Index = () => {
             <ProviderContainer path=''>
                 <>
                     <TabReport data={nowData} />
-                    {nowData !== null && <ViewDataAllBCU data={nowData['DATA_ALL_BCU']} />}
+                    <ViewDataAllBCU data={nowData ? nowData['DATA_ALL_BCU'] : null} />
                     <TabStorage data={nowData ? nowData['DATA_ALL_BCU'] : null} />
                 </>
             </ProviderContainer>
