@@ -50,7 +50,7 @@ const TabReport: React.FC<TabReportProps> = ({ data }) => {
         const rows = [
             { id: 1, text: 'Modules Volt', min: moduleVoltMin, max: moduleVoltMax, avg: moduleVoltAVG },
             { id: 2, text: 'Cell Volt', min: Cell_Volt_AVG, max: Max_Cell_Volt, avg: Min_Cell_Volt },
-            { id: 3, text: 'Temp Volt', min: TempAVG, max: TempMax, avg: TempMin }
+            { id: 3, text: 'Temperature', min: TempAVG, max: TempMax, avg: TempMin }
         ]
 
         return (
@@ -84,17 +84,6 @@ const TabReport: React.FC<TabReportProps> = ({ data }) => {
                     <Grid container size={12} spacing={1} justifyContent={'center'}>
                         <GridModule text='Battery Volt' value={LoadBattery} unit='V' />
                         <GridModule text='Load Volt' value={Battery} unit='V' />
-                        {/* <GridModule text='Max Cell Volt' value={Max_Cell_Volt} />
-                        <GridModule text='Min Cell Volt' value={Min_Cell_Volt} />
-                        <GridModule text='Cell Average' value={Cell_Volt_AVG} />
-
-                        <GridModule text='Temp AVG' value={TempAVG} />
-                        <GridModule text='Temp Max' value={TempMax} />
-                        <GridModule text='Temp Min' value={TempMin} />
-
-                        <GridModule text='Module Volt AVG' value={moduleVoltAVG} />
-                        <GridModule text='Module Volt Max' value={moduleVoltMax} />
-                        <GridModule text='Module Volt Min' value={moduleVoltMin} /> */}
                     </Grid>
                 </Grid>
                 <TableContainer component={Paper}>
