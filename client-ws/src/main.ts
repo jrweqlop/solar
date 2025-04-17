@@ -1,6 +1,7 @@
 import { WebSocket } from "ws"
 import { thisData } from "./dummy/file"
 const url = 'ws://localhost:81/device'
+// const url = 'ws://3.107.193.91:7755/device'
 
 const connect = (address: string) => {
     let ws = new WebSocket(address)

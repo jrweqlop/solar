@@ -25,7 +25,7 @@ const GridModule: React.FC<GridModuleProps> = ({ text, value, unit, fixed }) => 
             }} size={{ xs: 12, sm: 3 }}>
                 <Stack direction={'column'}>
                     <Typography textAlign={'center'} sx={{ color: status === null ? 'black' : 'white', fontSize: 18, fontWeight: 'bold' }}>
-                        {text} {unit}
+                        {text}
                     </Typography>
                     <Typography textAlign={'center'} color='textSecondary' sx={{ fontSize: 16, fontWeight: 'bold' }}>
                         {data} {unit}

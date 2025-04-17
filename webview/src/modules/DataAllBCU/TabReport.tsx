@@ -82,8 +82,8 @@ const TabReport: React.FC<TabReportProps> = ({ data }) => {
                         <GridModule text='Main Minus' value={mainMinus} unit='' />
                     </Grid>
                     <Grid container size={12} spacing={1} justifyContent={'center'}>
-                        <GridModule text='Battery Volt AGE' value={LoadBattery} unit='V' />
-                        <GridModule text='Load Volt AGE' value={Battery} unit='V' />
+                        <GridModule text='Battery Volt' value={LoadBattery} unit='V' />
+                        <GridModule text='Load Volt' value={Battery} unit='V' />
                         {/* <GridModule text='Max Cell Volt' value={Max_Cell_Volt} />
                         <GridModule text='Min Cell Volt' value={Min_Cell_Volt} />
                         <GridModule text='Cell Average' value={Cell_Volt_AVG} />
