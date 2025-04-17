@@ -19,7 +19,7 @@ interface ViewBattery {
 
 const ViewDataAllBCU: React.FC<ViewDataAllBCUProps> = ({ data }) => {
 
-    const [num, setNum] = useState<string>('')
+    const [num, setNum] = useState<string>('-1')
 
     const handleChange = (event: SelectChangeEvent) => {
         const value = event.target.value as string
@@ -42,7 +42,10 @@ const ViewDataAllBCU: React.FC<ViewDataAllBCUProps> = ({ data }) => {
                 return { id: item, value: dataBattery[item] }
             })
             setBatterCellNum(value)
-            setThisDataBattery(value[Number(num)])
+            if (Number(num) === -1)
+                setThisDataBattery(null)
+            else
+                setThisDataBattery(value[Number(num)])
         }
     }
 
@@ -64,7 +67,7 @@ const ViewDataAllBCU: React.FC<ViewDataAllBCUProps> = ({ data }) => {
                                 label="Select Cell Battery"
                                 onChange={handleChange}
                             >
-                                <MenuItem value={-1} >Data Battery Pack</MenuItem>
+                                <MenuItem value={-1} >Not View Data Battery Pack</MenuItem>
                                 {batteryCellNum.length > 0 && batteryCellNum.map((item, index) => {
                                     return (
                                         <MenuItem key={item.id} value={index} >Data Battery Pack {index + 1}</MenuItem>
