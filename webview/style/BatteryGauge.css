@@ -1,0 +1,65 @@
+.battery-gauge {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 150px;
+    height: 50px;
+  }
+  
+  .battery-body {
+    flex: 1;
+    height: 100%;
+    border: 3px solid #333;
+    border-radius: 8px;
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+  }
+  
+  .battery-level {
+    height: 100%;
+    transition: width 0.4s ease;
+    background: green;
+  }
+  
+  .battery-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    color: #333;
+    pointer-events: none;
+  }
+  
+  .battery-cap {
+    width: 10px;
+    height: 25px;
+    background: #333;
+    margin-left: 5px;
+    border-radius: 2px;
+  }
+  
+  .charging-icon {
+    position: absolute;
+    right: -25px;
+    font-size: 20px;
+    color: gold;
+  }
+  
+  .battery-gauge.high .battery-level {
+    background: #4caf50;
+  }
+  
+  .battery-gauge.medium .battery-level {
+    background: #ffc107;
+  }
+  
+  .battery-gauge.low .battery-level {
+    background: #ff5722;
+  }
+  
+  .battery-gauge.critical .battery-level {
+    background: #f44336;
+  }

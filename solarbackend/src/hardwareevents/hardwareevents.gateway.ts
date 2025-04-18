@@ -37,7 +37,7 @@ export class HardwareeventsGateway implements OnModuleInit, OnGatewayConnection,
     this.clients.set(client, interval);
     // ถ้า client ตอบ pong กลับมา แสดงว่ายังออนไลน์อยู่
     client.on('pong', () => {
-      console.log('Received pong from client');
+      console.log('Received pong from client hardware');
     });
   }
 

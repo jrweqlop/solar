@@ -1,7 +1,6 @@
 import { useAtom } from 'jotai'
 import React from 'react'
 import { NowDataWsJson } from '../../server/ProviderWebsocket'
-import { Gauge } from '@mui/x-charts/Gauge'
 import Grid from '@mui/material/Grid'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
@@ -14,6 +13,7 @@ import TableBody from '@mui/material/TableBody'
 import Paper from '@mui/material/Paper'
 import Box from '@mui/material/Box'
 import GridModule from '../../shared/GridModule'
+import BatteryGauge from '../MainView/BatteryGauge'
 
 interface TabReportProps {
     data: InternetData | null
@@ -49,8 +49,8 @@ const TabReport: React.FC<TabReportProps> = ({ data }) => {
 
         const rows = [
             { id: 1, text: 'Modules Volt', min: moduleVoltMin, max: moduleVoltMax, avg: moduleVoltAVG },
-            { id: 2, text: 'Cell Volt', min: Cell_Volt_AVG, max: Max_Cell_Volt, avg: Min_Cell_Volt },
-            { id: 3, text: 'Temperature', min: TempAVG, max: TempMax, avg: TempMin }
+            { id: 2, text: 'Cell Volt', min: Min_Cell_Volt, max: Max_Cell_Volt, avg: Cell_Volt_AVG },
+            { id: 3, text: 'Temperature', min: TempMin, max: TempMax, avg: TempAVG }
         ]
 
         return (
@@ -58,16 +58,7 @@ const TabReport: React.FC<TabReportProps> = ({ data }) => {
                 <Grid container spacing={1}>
                     <Grid size={{ xs: 12 }} textAlign={'center'}>
                         <Box width={'100%'} justifyContent={'center'} display={'flex'}>
-                            <Gauge
-                                width={300}
-                                height={300}
-                                value={soc}
-                                startAngle={-90}
-                                endAngle={90}
-                                outerRadius={50}
-                                text={
-                                    ({ value, valueMax }) => `${value} / ${valueMax}`
-                                } />
+                            <BatteryGauge level={soc} isCharging={false} />
                         </Box>
                     </Grid>
                     <Grid container size={12}>

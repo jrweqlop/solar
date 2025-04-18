@@ -1,3 +1,4 @@
+'use client'
 import * as React from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
@@ -7,6 +8,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import theme from '../src/theme';
 import ProviderWebsocket from '../src/server/ProviderWebsocket';
 import TimeClock from '../src/shared/TimeClock';
+import "../style/BatteryGauge.css"
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
